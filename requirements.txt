@@ -1,0 +1,6 @@
+pandas
+yfinance
+pyarrow
+typing-extensions
+pytest
+jinja2
