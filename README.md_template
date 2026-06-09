@@ -1,0 +1,39 @@
+# lentera
+
+> A quiet, daily market intelligence pipeline.
+
+This repository runs autonomously. Every morning, it fetches market data (Gold, Bitcoin, Ethereum), processes it through a clean technical analysis engine, and saves the history in Parquet format. 
+
+The live signal table below updates itself every day.
+
+## How it works
+
+1. **Automation**: A GitHub Actions workflow triggers daily at 08:00 WIB (01:00 UTC).
+2. **Ingestion**: A Python engine pulls data from Yahoo Finance.
+3. **Analysis**: The script computes technical markers (RSI, EMA, and Bollinger Bands).
+4. **Publishing**: The runner updates the table below and commits the changes back to the repository.
+
+## Live Signals
+
+_Last updated: {now}_
+
+| Asset | Price | Signal | RSI (14) | Trend |
+|-------|-------|--------|----------|-------|
+{signal_rows}
+
+> The data above is updated daily.
+
+## Running Locally
+
+```bash
+git clone git@github.com:azizyuwono/lentera.git
+cd lentera
+pip install -r requirements.txt
+python -m src.main
+```
+
+Historical datasets are saved under the `data/` directory as Parquet files.
+
+---
+
+_curated by [Moli](https://t.me/davevy)_

@@ -1,41 +1,58 @@
 # lentera
 
-> Penerang harian di tengah pasar yang riuh.
+A daily market intelligence pipeline. Fetches market data, processes technical indicators, and stores everything as version-controlled Parquet files.
 
-Repo ini jalan sendiri setiap hari. Ia menarik data pasar (emas, bitcoin, ether), mengolahnya dengan beberapa indikator teknikal, lalu menyimpannya ke file Parquet.
+This repository is fully automated and designed to be read by both humans and machines.
 
-Hasilnya, setiap pagi laporan harian muncul di sini — siapa saja boleh lihat, siapa saja boleh ambil datanya untuk dipelajari lebih lanjut.
+---
 
-## Bagaimana Ia Bekerja
+## How It Works
 
-1. GitHub Actions memicu pipeline setiap jam 08:00 WIB.
-2. Script Python menarik data dari Yahoo Finance.
-3. Data itu diperkaya dengan indikator seperti RSI, EMA, dan Bollinger Bands.
-4. Laporan dibuat, tabel di bawah ini diperbarui, dan perubahan dikirim kembali ke repo ini.
+1. A scheduled GitHub Actions workflow runs daily at 01:00 UTC (08:00 WIB).
+2. `DataCollector` fetches OHLCV data from Yahoo Finance for Gold (XAU/USD), Bitcoin, and Ethereum.
+3. `IndicatorEngine` computes RSI (14), EMA (9/21), Bollinger Bands, and generates a trading signal.
+4. `ReportGenerator` writes the live signal table below and commits the updated README back to the repository.
 
-## Sinyal Hari Ini
+## Live Signals
 
-_Updated: {{ timestamp }}_
+*Updated: {timestamp}*
 
-| Asset | Harga | Sinyal | RSI (14) | Trend |
-|-------|-------|--------|----------|-------|
-| XAU/USD | $4,309.80 | ⚪ HOLD | 33.5 | Downtrend |
-| BTC/USD | $74,225.10 | ⚪ HOLD | 48.2 | Sideways |
-| ETH/USD | $3,890.40 | 🟢 BUY | 28.7 | Uptrend |
+| Asset | Price | Signal | RSI | Trend |
+|-------|-------|--------|-----|-------|
+{signal_rows}
 
-> Tabel di atas selalu otomatis diperbarui setiap hari.
+*This table is regenerated on every pipeline run.*
 
-## Kalau Ingin Jalanin di Komputer Sendiri
+## Project Structure
+
+```
+src/
+├── collector.py         # Data ingestion layer
+├── analyzer.py          # Technical indicator engine
+├── report_generator.py  # Renders README and exports signals
+└── main.py              # Entry point
+
+tests/
+└── test_analyzer.py     # Unit tests for indicator logic
+
+data/                    # Historical data (Parquet format)
+.github/workflows/       # CI/CD definitions
+```
+
+## Local Development
 
 ```bash
 git clone git@github.com:azizyuwono/lentera.git
 cd lentera
 pip install -r requirements.txt
+python -m pytest tests/
 python -m src.main
 ```
 
-Semua data akan tersimpan di folder `data/` dengan format Parquet.
+## Motivation
+
+Lentera was built to solve a simple problem: I wanted a clean, accessible record of daily market signals that I could query programmatically without relying on any always-on server. By storing data as Parquet inside the repository itself, every run adds to a growing time series that anyone can clone and use.
 
 ---
 
-_dikelola oleh [Moli](https://t.me/davevy) — teman teknis di balik layar_
+*Maintained by [Moli](https://t.me/davevy).*
