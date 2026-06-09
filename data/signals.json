@@ -1,0 +1,23 @@
+[
+  {
+    "asset": "XAU/USD (Gold Futures)",
+    "action": "HOLD",
+    "price": 4270.4,
+    "rsi": 31.4,
+    "trend": "Bearish"
+  },
+  {
+    "asset": "BTC/USD (Bitcoin)",
+    "action": "HOLD",
+    "price": 61213.04,
+    "rsi": 13.7,
+    "trend": "Bearish"
+  },
+  {
+    "asset": "ETH/USD (Ethereum)",
+    "action": "HOLD",
+    "price": 1626.25,
+    "rsi": 18.7,
+    "trend": "Bearish"
+  }
+]

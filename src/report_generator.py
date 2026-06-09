@@ -34,11 +34,17 @@ class ReportGenerator:
             signal = IndicatorEngine.generate_signal(df_with_ind, label)
             results.append(signal)
             
-            # Save raw data
+            # Save raw data as parquet
             fname = f"{ticker.replace('-', '_').lower()}.parquet"
             filepath = os.path.join(DATA_DIR, fname)
             df_with_ind.to_parquet(filepath, index=False)
             print(f"[Data] Saved to {filepath}")
+        
+        # Save signals as JSON for the README template
+        signals_path = os.path.join(DATA_DIR, "signals.json")
+        with open(signals_path, "w") as f:
+            json.dump(results, f, indent=2)
+        print(f"[Data] Signals saved to {signals_path}")
         
         return results
 
@@ -57,7 +63,9 @@ class ReportGenerator:
         
         return f"""# 📡 Alpha Radar — Automated Market Intelligence
 
-> **Portofolio Graded Project** — Automated daily market pipeline with technical analysis, CI/CD via GitHub Actions, and version-controlled data storage.
+> **Portfolio-ready Project** — Automated daily market pipeline with technical analysis indicators, CI/CD via GitHub Actions, and version-controlled data storage.
+
+[![Tests](https://github.com/azizyuwono/alpha-radar/actions/workflows/run-pipeline.yml/badge.svg)](https://github.com/azizyuwono/alpha-radar/actions)
 
 ## 🔍 Live Signals
 
@@ -91,19 +99,21 @@ graph TD
 5. Changes are committed and pushed — your contribution graph stays green without manual effort.
 
 ### Tech Stack
-- **Language:** Python 3.11
-- **Testing:** `pytest` (unit test coverage)
-- **Automation:** GitHub Actions CI/CD
-- **Data Storage:** Apache Parquet
-- **Packaging:** `pip` + `requirements.txt`
+| Layer | Technology |
+|-------|-----------|
+| **Language** | Python 3.11 |
+| **Testing** | `pytest` (4 unit tests) |
+| **Automation** | GitHub Actions CI/CD |
+| **Data Storage** | Apache Parquet |
+| **Data Source** | Yahoo Finance API |
 
 ## 🚀 Getting Started
 
 ```bash
-git clone https://github.com/azizyuwono/alpha-radar
+git clone https://github.com/azizyuwono/alpha-radar.git
 cd alpha-radar
 pip install -r requirements.txt
-python -m pytest
+python -m pytest tests/
 python src/main.py
 ```
 

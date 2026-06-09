@@ -2,7 +2,7 @@ name: Daily Quant Pipeline
 
 on:
   schedule:
-    - cron: "0 1 * * *"  # Run daily at 08:00 WIB
+    - cron: "0 1 * * *"  # 01:00 UTC = 08:00 WIB daily
   workflow_dispatch:  # Manual trigger
 
 jobs:
@@ -12,8 +12,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
         with:
-          persist-credentials: false
-          force-push: true
+          persist-credentials: true  # Allow push back
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -23,16 +22,14 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Run Quant Pipeline
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: python src/main.py
+      - name: Run Pipeline
+        run: python -m src.main
 
       - name: Commit & Push updates
         run: |
           git config user.name "alpha-radar[bot]"
           git config user.email "bot@alpha-radar.dev"
-          git add -A
-          git diff --staged --stat
-          git commit -m "ci: daily pipeline run $(date '+%Y-%m-%d')" || echo "No changes to commit"
+          git add README.md data/
+          git diff --staged --quiet && echo "No changes to commit" && exit 0
+          git commit -m "ci: daily pipeline run $(date '+%Y-%m-%d')"
           git push
