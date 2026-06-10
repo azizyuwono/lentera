@@ -1,23 +1,41 @@
 [
   {
-    "asset": "XAU/USD (Gold Futures)",
+    "asset": "XAU/USD",
     "action": "HOLD",
-    "price": 4270.4,
-    "rsi": 31.4,
-    "trend": "Bearish"
+    "price": 4183.9,
+    "pct_change": -1.79,
+    "rsi": 25.1,
+    "trend": "Bearish",
+    "macd_signal": "Bearish",
+    "atr_pct": 1.99,
+    "volatility": "Normal",
+    "score": 1,
+    "reasons": "EMA\u2193, RSI25\u2605, BB\u4f4e"
   },
   {
-    "asset": "BTC/USD (Bitcoin)",
+    "asset": "BTC/USD",
     "action": "HOLD",
-    "price": 61213.04,
-    "rsi": 13.7,
-    "trend": "Bearish"
+    "price": 61190.12,
+    "pct_change": -0.74,
+    "rsi": 14.8,
+    "trend": "Bearish",
+    "macd_signal": "Bearish",
+    "atr_pct": 4.26,
+    "volatility": "High",
+    "score": -1,
+    "reasons": "EMA\u2193, SMA50<200\u2193, RSI15\u2605"
   },
   {
-    "asset": "ETH/USD (Ethereum)",
+    "asset": "ETH/USD",
     "action": "HOLD",
-    "price": 1626.25,
-    "rsi": 18.7,
-    "trend": "Bearish"
+    "price": 1620.68,
+    "pct_change": -1.04,
+    "rsi": 20.0,
+    "trend": "Bearish",
+    "macd_signal": "Bearish",
+    "atr_pct": 5.74,
+    "volatility": "High",
+    "score": -1,
+    "reasons": "EMA\u2193, SMA50<200\u2193, RSI20\u2605"
   }
 ]

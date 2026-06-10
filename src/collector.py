@@ -1,12 +1,13 @@
 import yfinance as yf
 import pandas as pd
+import numpy as np
 from typing import Optional
 
 class DataCollector:
     """Professional Data Collection Engine for Alpha Radar."""
     
     @staticmethod
-    def fetch_market_data(ticker: str, period: str = "1y", interval: str = "1d") -> Optional[pd.DataFrame]:
+    def fetch_market_data(ticker: str, period: str = "2y", interval: str = "1d") -> Optional[pd.DataFrame]:
         """Fetch historical data from Yahoo Finance."""
         print(f"[Collector] Fetching {ticker}...")
         try:
@@ -26,6 +27,9 @@ class DataCollector:
                 "Close": "close", 
                 "Volume": "volume"
             }, inplace=True)
+            
+            # Clean any NaN values
+            df.dropna(subset=["close", "high", "low"], inplace=True)
             
             return df[["timestamp", "open", "high", "low", "close", "volume"]]
         except Exception as e:

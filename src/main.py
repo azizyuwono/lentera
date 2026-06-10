@@ -17,7 +17,8 @@ def main() -> None:
     signals = ReportGenerator.run_full_pipeline()
     readme = ReportGenerator.generate_readme(signals)
 
-    readme_path = os.path.join(os.path.dirname(__file__), "README.md")
+    # Output to the root README.md, not src/README.md
+    readme_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "README.md")
     with open(readme_path, "w") as f:
         f.write(readme)
 
